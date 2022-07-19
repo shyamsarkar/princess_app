@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#000000">
+    <title>Dashboard</title>
+    <meta name="description" content="Bootstrap Testing">
+    <meta name="keywords" content="Test, Student, coding, template, html" />
+    {% include "inc/header_files.html" %}
+</head>
+
+<body>
+
+
+
+    <!-- Search Component -->
+    <div id="search" class="appHeader">
+        <form class="search-form">
+            <div class="form-group searchbox">
+                <input type="text" class="form-control" placeholder="Search...">
+                <i class="input-icon">
+                    <ion-icon name="search-outline"></ion-icon>
+                </i>
+                <a href="#" class="ms-1 close toggle-searchbox">
+                    <ion-icon name="close-circle"></ion-icon>
+                </a>
+            </div>
+        </form>
+    </div>
+    <!-- * Search Component -->
+
+    <!-- App Capsule -->
+    <div id="appCapsule">
+
+        <div class="header-large-title">
+            <h1 class="title">Discover</h1>
+            <h4 class="subtitle">Welcome to Mobilekit</h4>
+        </div>
+
+
+
+        <div class="section mt-3 mb-3">
+            <div class="card">
+                <div class="card-body d-flex justify-content-between align-items-end">
+                    <div>
+                        <h6 class="card-subtitle">Discover</h6>
+                        <h5 class="card-title mb-0 d-flex align-items-center justify-content-between">
+                            Dark Mode
+                        </h5>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input dark-mode-switch" type="checkbox" id="darkmodecontent">
+                        <label class="form-check-label" for="darkmodecontent"></label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="section mt-3 mb-3">
+            <div class="card">
+                <img src="{{ url_for('mobileapp.static',filename='assets/img/sample/photo/wide4.jpg') }}"
+                    class="card-img-top" alt="image">
+                <div class="card-body">
+                    <h6 class="card-subtitle">Discover</h6>
+                    <h5 class="card-title">Components</h5>
+                    <p class="card-text">
+                        Reusable components designed for the mobile interface and ready to use.
+                    </p>
+                    <a href="app-components.html" class="btn btn-primary">
+                        <ion-icon name="cube-outline"></ion-icon>
+                        Preview
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section mt-3 mb-3">
+            <div class="card">
+                <img src="{{ url_for('mobileapp.static',filename='assets/img/sample/photo/wide2.jpg') }}"
+                    class="card-img-top" alt="image">
+                <div class="card-body">
+                    <h6 class="card-subtitle">Discover</h6>
+                    <h5 class="card-title">Pages</h5>
+                    <p class="card-text">
+                        Mobilekit comes with basic pages you may need and use in your projects easily.
+                    </p>
+                    <a href="app-pages.html" class="btn btn-primary">
+                        <ion-icon name="layers-outline"></ion-icon>
+                        Preview
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <!-- * App Capsule -->
+
+
+    <!-- App Bottom Menu -->
+    {% include "inc/bottom_menu.html" %}
+    <!-- * App Bottom Menu -->
+
+    {% include "inc/left_menu.html" %}
+
+
+    {% include "inc/footer_files.html" %}
+
+</body>
+
+</html>

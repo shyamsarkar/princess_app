@@ -1,0 +1,86 @@
+<!-- App Sidebar -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarPanel">
+    <div class="offcanvas-body">
+        <!-- profile box -->
+        <div class="profileBox bg-info">
+            <div class="image-wrapper">
+                <img src="{{ url_for('mobileapp.static',filename='assets/img/sample/avatar/avatar1.jpg') }}" alt="image"
+                    class="imaged rounded">
+            </div>
+            <div class="in">
+                <strong>Princess Computer</strong>
+                <div class="text-muted">
+                    <ion-icon name="location"></ion-icon>
+                    Piproud Colony
+                </div>
+            </div>
+            <a href="#" class="close-sidebar-button" data-bs-dismiss="offcanvas">
+                <ion-icon name="close"></ion-icon>
+            </a>
+        </div>
+        <!-- * profile box -->
+
+        <ul class="listview flush transparent no-line image-listview mt-2">
+            <li>
+                <a href="{{ url_for('mobileapp.dashboard') }}" class="item">
+                    <div class="icon-box bg-info">
+                        <ion-icon name="home-outline"></ion-icon>
+                    </div>
+                    <div class="in">
+                        Home
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('mobileapp.income_group') }}" class="item">
+                    <div class="icon-box bg-info">
+                        <ion-icon name="cube-outline"></ion-icon>
+                    </div>
+                    <div class="in">
+                        Income Group
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="app-pages.html" class="item">
+                    <div class="icon-box bg-info">
+                        <ion-icon name="layers-outline"></ion-icon>
+                    </div>
+                    <div class="in">
+                        <div>Income Entry</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="page-chat.html" class="item">
+                    <div class="icon-box bg-info">
+                        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+                    </div>
+                    <div class="in">
+                        <div>Expense Group</div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="page-chat.html" class="item">
+                    <div class="icon-box bg-info">
+                        <ion-icon name="moon-outline"></ion-icon>
+                    </div>
+                    <div class="in">
+                        <div>Expense Entry</div>
+                    </div>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+    <!-- sidebar buttons -->
+    <div class="sidebar-buttons">
+
+        <a href="{{ url_for('auth.logout') }}" class="button">
+            <ion-icon name="log-out-outline"></ion-icon>
+        </a>
+    </div>
+    <!-- * sidebar buttons -->
+</div>
+<!-- * App Sidebar -->
