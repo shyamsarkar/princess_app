@@ -2,7 +2,7 @@ from models import *
 
 mobileapp = Blueprint('mobileapp', __name__, url_prefix='/mobileapp',
                       template_folder='templates',
-                      static_folder='static', static_url_path='assets')
+                      static_folder='static', static_url_path='/')
 
 
 @mobileapp.route('/', methods=['GET', 'POST'])
@@ -15,3 +15,9 @@ def dashboard():
 @login_required
 def income_group():
     return render_template('income_group.html')
+
+
+@mobileapp.route('income_entry', methods=['GET', 'POST'])
+@login_required
+def income_entry():
+    return render_template('income_entry.html')

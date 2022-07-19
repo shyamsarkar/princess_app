@@ -15,7 +15,7 @@ from flask_migrate import Migrate
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 # flask script
-from flask_script import Manager, Command
+# from flask_script import Manager, Command
 
 
 # app Configuration
@@ -49,4 +49,4 @@ migrate = Migrate(app, db)
 # Flask Script
 
 
-script_manager = Manager(app)
+# script_manager = Manager(app)
