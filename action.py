@@ -1,3 +1,4 @@
+from sqlalchemy import null
 from config import *
 
 
@@ -95,17 +96,25 @@ class Actionclass(db.Model):
         return instance
 
     @classmethod
+    def save_all(cls, requested, tblpkey, commit=False):
+        form_data = {}
+        for key in requested.form.keys():
+            print(key, requested.form.get(key)[0])
+            if key != "" and key != None and key != "csrf_token" and key != tblpkey:
+                form_data[key] = requested.form.get(key)
+        if len(form_data) > 0:
+            instance = cls(**form_data)
+            db.session.add(instance)
+            if commit:
+                db.session.commit()
+            return instance
+
+    @classmethod
     def delete_record(cls, commit=True, **kwargs):
         instance = cls.query.filter_by(**kwargs).delete()
         if commit:
             db.session.commit()
         return instance
-
-    @classmethod
-    def delete_data(cls, args):
-        lastid = cls.query.get(args).delete()
-        db.session.commit()
-        return lastid
 
     @classmethod
     def select_record(cls, **kwargs):
@@ -121,10 +130,19 @@ class Actionclass(db.Model):
         db.session.commit()
         return instance
 
+    # @staticmethod
+    # def show(post):
+    #     data = dict((key, post.form.getlist(key) if len(post.form.getlist(
+    #         key)) > 1 else post.form.getlist(key)[0]) for key in post.form.keys())
+    #     return data
     @staticmethod
-    def show(post):
-        data = dict((key, post.form.getlist(key) if len(post.form.getlist(
-            key)) > 1 else post.form.getlist(key)[0]) for key in post.form.keys())
+    def show(requested):
+        data = {}
+        # data = dict((key, requested.form.getlist(key) if len(requested.form.getlist(key)) > 1 else requested.form.getlist(key)[0]) for key in requested.form.keys())
+        for key in requested.form.keys():
+            print(key, requested.form.get(key)[0])
+            if key != "" or key != None:
+                data[key] = requested.form.get(key)
         return data
 
 

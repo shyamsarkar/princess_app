@@ -25,3 +25,53 @@ class Users(Actionclass, UserMixin):
     ipaddress = db.Column(db.String(30), nullable=False)
     createdate = db.Column(db.Date, nullable=False)
     lastupdated = db.Column(db.Date, nullable=False)
+
+
+class Income_group(Actionclass):
+    group_id = db.Column(db.Integer, primary_key=True)
+    group_name = db.Column(db.String(100), nullable=False)
+    ipaddress = db.Column(db.String(30), nullable=False)
+    createdby = db.Column(db.Integer, nullable=False)
+    createdate = db.Column(db.Date, nullable=False, server_default=func.now())
+    createtime = db.Column(db.Time, nullable=False, server_default=func.now())
+    lastupdated = db.Column(db.Date, nullable=False, server_default=func.now(), onupdate=func.now())
+    updatetime = db.Column(db.Time, nullable=False, server_default=func.now(), onupdate=func.now())
+
+    def __repr__(self):
+        return f"{self.group_id}, {self.group_name}"
+
+class Expense_group(Actionclass):
+    group_id = db.Column(db.Integer, primary_key=True)
+    group_name = db.Column(db.String(100), nullable=False)
+    ipaddress = db.Column(db.String(30), nullable=False)
+    createdby = db.Column(db.Integer, nullable=False)
+    createdate = db.Column(db.Date, nullable=False, server_default=func.now())
+    createtime = db.Column(db.Time, nullable=False, server_default=func.now())
+    lastupdated = db.Column(db.Date, nullable=False, server_default=func.now(), onupdate=func.now())
+    updatetime = db.Column(db.Time, nullable=False, server_default=func.now(), onupdate=func.now())
+
+class Income_Entry(Actionclass):
+    income_id = db.Column(db.Integer, primary_key=True)
+    group_id = db.Column(db.Integer, nullable=True)
+    income_date = db.Column(db.Date, nullable=False)
+    amount = db.Column(db.Float, nullable=False)
+    remark = db.Column(db.String(100), nullable=False)
+    ipaddress = db.Column(db.String(30), nullable=False)
+    createdby = db.Column(db.Integer, nullable=False)
+    createdate = db.Column(db.Date, nullable=False, server_default=func.now())
+    createtime = db.Column(db.Time, nullable=False, server_default=func.now())
+    lastupdated = db.Column(db.Date, nullable=False, server_default=func.now(), onupdate=func.now())
+    updatetime = db.Column(db.Time, nullable=False, server_default=func.now(), onupdate=func.now())
+
+class Expense_Entry(Actionclass):
+    expense_id = db.Column(db.Integer, primary_key=True)
+    group_id = db.Column(db.Integer, nullable=True)
+    expense_date = db.Column(db.Date, nullable=False)
+    amount = db.Column(db.Float, nullable=False)
+    remark = db.Column(db.String(100), nullable=False)
+    ipaddress = db.Column(db.String(30), nullable=False)
+    createdby = db.Column(db.Integer, nullable=False)
+    createdate = db.Column(db.Date, nullable=False, server_default=func.now())
+    createtime = db.Column(db.Time, nullable=False, server_default=func.now())
+    lastupdated = db.Column(db.Date, nullable=False, server_default=func.now(), onupdate=func.now())
+    updatetime = db.Column(db.Time, nullable=False, server_default=func.now(), onupdate=func.now())

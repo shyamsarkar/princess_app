@@ -22,8 +22,8 @@ from flask_admin.contrib.sqla import ModelView
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:123@localhost/princess_app'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
-app.config['SQLALCHEMY_RECORD_QUERIES'] = True
+app.config['SQLALCHEMY_ECHO'] = False
+app.config['SQLALCHEMY_RECORD_QUERIES'] = False
 app.config['UPLOAD_FOLDER'] = '.\\static\\uploaded'
 db = SQLAlchemy(app)
 app.secret_key = 'This_is_a_very_complex_secret_key'
