@@ -140,7 +140,7 @@ class Actionclass(db.Model):
         data = {}
         # data = dict((key, requested.form.getlist(key) if len(requested.form.getlist(key)) > 1 else requested.form.getlist(key)[0]) for key in requested.form.keys())
         for key in requested.form.keys():
-            print(key, requested.form.get(key)[0])
+            # print(key, requested.form.get(key)[0])
             if key != "" or key != None:
                 data[key] = requested.form.get(key)
         return data

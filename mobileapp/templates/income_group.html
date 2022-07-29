@@ -37,7 +37,7 @@
         <div class="section full mt-2">
             <!-- <div class="section-title">Fill the form to contact us *</div> -->
             <div class="wide-block pt-2 pb-2">
-                <form method="POST" action="{{ url_for('mobileapp.income_group') }}" id="myform">
+                <form method="POST" action="" id="myform">
                     {{ form.csrf_token }}
                     <div class="form-group boxed">
                         <div class="input-wrapper">
@@ -51,7 +51,7 @@
                     </div>
 
                     <div class="mt-1">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block">Send</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
                         <input type="hidden" name="group_id" id="group_id" value="0">
                     </div>
 
@@ -141,7 +141,10 @@
 
         function edit_record(id) {
             fetch("{{ url_for('mobileapp.edit_income_group')}}?id=" + id).then(resp => resp.text()).then((data) => {
-                console.log(data);
+                rowedit = JSON.parse(data);
+                // console.log(rowedit);
+                document.getElementById('group_name').value = rowedit.group_name
+                document.getElementById('group_id').value = rowedit.group_id
             });
         }
     </script>
