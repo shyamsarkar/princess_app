@@ -37,8 +37,7 @@ class Income_group(Actionclass):
     lastupdated = db.Column(db.Date, nullable=False, server_default=func.now(), onupdate=func.now())
     updatetime = db.Column(db.Time, nullable=False, server_default=func.now(), onupdate=func.now())
 
-    def __repr__(self):
-        return f"{self.group_id}, {self.group_name}"
+   
 
 class Expense_group(Actionclass):
     group_id = db.Column(db.Integer, primary_key=True)
