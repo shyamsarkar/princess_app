@@ -9,12 +9,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000">
     <title>Princess Computer</title>
-    <meta name="description" content="Mobilekit HTML Mobile UI Kit">
-    <meta name="keywords" content="bootstrap 5, mobile template, cordova, phonegap, mobile, html" />
+    <meta name="description" content="Python Flask">
+    <meta name="keywords" content="Income, Expense, Money, Management, Mobile, Android" />
     {% include "inc/header_files.html" %}
 </head>
 
-<body>
+<body onload="show_record();">
 
 
 
@@ -37,11 +37,12 @@
         <div class="section full mt-2">
             <!-- <div class="section-title">Fill the form to contact us *</div> -->
             <div class="wide-block pt-2 pb-2">
-                <form>
+                <form method="POST" action="" id="myform">
+                    {{ form.csrf_token }}
                     <div class="form-group boxed">
                         <div class="input-wrapper">
                             <input type="text" class="form-control" name="group_name" id="group_name"
-                                placeholder="Enter Group Name">
+                                placeholder="Enter Group Name" autofocus>
                             <i class="clear-input">
                                 <ion-icon name="close-circle" role="img" class="md hydrated" aria-label="close circle">
                                 </ion-icon>
@@ -50,7 +51,8 @@
                     </div>
 
                     <div class="mt-1">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block">Send</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
+                        <input type="hidden" name="group_id" id="group_id" value="0">
                     </div>
 
                 </form>
@@ -69,30 +71,13 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Name</th>
+                                <th scope="col">GroupName</th>
                                 <th scope="col">Edit</th>
                                 <th scope="col">Delete</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
+                        <tbody id="tbl_data">
+
                         </tbody>
                     </table>
                 </div>
@@ -114,6 +99,83 @@
     <!-- ============== Js Files ==============  -->
     {% include "inc/footer_files.html" %}
 
+
+
+    <script>
+        const myform = document.getElementById('myform');
+        myform.addEventListener("submit", (e) => {
+            e.preventDefault();
+            var group_name = document.getElementById('group_name');
+            if (group_name.value.trim() == "") {
+                group_name.focus();
+                return false;
+            }
+            const formData = new FormData(myform);
+            fetch("{{ url_for('mobileapp.expense_group') }}", {
+                method: 'POST',
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    show_record();
+                    if (data.status == "success") {
+                        toastr.info("Record Saved Successfully!");
+                    } else {
+                        toastr.error("Sorry!, Record Not Saved!");
+                    }
+                    group_name.value = "";
+                    document.getElementById('group_id').value = 0; // for insert condition
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        });
+    </script>
+    <script>
+        function show_record() {
+            fetch("{{ url_for('mobileapp.show_expense_group') }}").then(resp => resp.text()).then((data) => {
+                document.getElementById('tbl_data').innerHTML = data;
+            });
+        }
+
+        function edit_record(id) {
+            fetch("{{ url_for('mobileapp.edit_expense_group')}}?id=" + id).then(resp => resp.text()).then((data) => {
+                rowedit = JSON.parse(data);
+                // console.log(rowedit);
+                document.getElementById('group_name').value = rowedit.group_name
+                document.getElementById('group_id').value = rowedit.group_id
+            });
+        }
+    </script>
+    <script>
+        function delete_data(id) {
+            if (confirm("Are you sure?")) {
+                const data = {
+                    'id': id
+                };
+                fetch("{{ url_for('mobileapp.delete_expense_group') }}", {
+                    method: 'POST',
+                    body: "id=" + id,
+                    headers: {
+                        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    },
+                })
+                    .then(resp => resp.json())
+                    .then(data => {
+                        show_record();
+                        if (data.status == "success") {
+                            toastr.error("Record Deleted Successfully!");
+                        } else {
+                            toastr.error("Something went wrong!");
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
+        }
+    </script>
 </body>
 
 </html>

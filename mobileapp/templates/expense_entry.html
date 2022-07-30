@@ -14,7 +14,7 @@
     {% include "inc/header_files.html" %}
 </head>
 
-<body>
+<body onload="show_record();">
 
 
 
@@ -37,24 +37,25 @@
             <!-- <div class="section-title">Boxed Form Example</div> -->
             <div class="wide-block pt-2 pb-2">
 
-                <form class="needs-validation" novalidate="">
-
+                <form class="needs-validation" novalidate="" method="POST"
+                    action="{{ url_for('mobileapp.income_entry') }}" id="myform">
+                    {{ form.csrf_token }}
                     <div class="form-group boxed">
                         <div class="input-wrapper">
                             <label class="label" for="group_id">Group Name</label>
                             <select class="form-control custom-select" name="group_id" id="group_id">
                                 <option selected value="">---select---</option>
-                                <option value="1">New York City</option>
-                                <option value="2">Austin</option>
-                                <option value="3">Colorado</option>
+                                {% for row in qry_group %}
+                                <option value="{{ row.group_id }}">{{ row.group_name.capitalize() }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group boxed">
                         <div class="input-wrapper">
-                            <label class="label" for="income_date">Name</label>
-                            <input type="date" class="form-control" name="income_date" id="income_date">
+                            <label class="label" for="expense_date">Expense Date</label>
+                            <input type="date" class="form-control" name="expense_date" id="expense_date" value="">
                             <i class="clear-input">
                                 <ion-icon name="close-circle" role="img" class="md hydrated" aria-label="close circle">
                                 </ion-icon>
@@ -63,8 +64,8 @@
                     </div>
                     <div class="form-group boxed">
                         <div class="input-wrapper">
-                            <label class="label" for="amount">Name</label>
-                            <input type="text" class="form-control" name="amount" id="amount"
+                            <label class="label" for="amount">Amount</label>
+                            <input type="text" class="form-control" name="amount" id="amount" value=""
                                 placeholder="Enter Amount">
                             <i class="clear-input">
                                 <ion-icon name="close-circle" role="img" class="md hydrated" aria-label="close circle">
@@ -76,7 +77,7 @@
                     <div class="form-group boxed">
                         <div class="input-wrapper">
                             <label class="label" for="remark">Remark</label>
-                            <input type="text" class="form-control" name="remark" id="remark"
+                            <input type="text" class="form-control" name="remark" id="remark" value=""
                                 placeholder="Enter Remark">
                             <i class="clear-input">
                                 <ion-icon name="close-circle" role="img" class="md hydrated" aria-label="close circle">
@@ -89,6 +90,7 @@
 
                     <div class="mt-2">
                         <button class="btn btn-primary btn-block" type="submit">Submit</button>
+                        <input type="hidden" name="expense_id" id="expense_id" value="0">
                     </div>
 
                 </form>
@@ -96,9 +98,8 @@
 
             </div>
         </div>
-
         <div class="section full mb-2">
-            <div class="section-title">Group List</div>
+            <div class="section-title">Expense Entry List</div>
 
             <div class="wide-block p-0">
 
@@ -107,30 +108,15 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Edit</th>
-                                <th scope="col">Delete</th>
+                                <th scope="col">GroupName</th>
+                                <th scope="col">ExpenseDate</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Remark</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
+                        <tbody id="tbl_data">
+
                         </tbody>
                     </table>
                 </div>
@@ -152,6 +138,97 @@
     <!-- ============== Js Files ==============  -->
     {% include "inc/footer_files.html" %}
 
+    <script>
+        const myform = document.getElementById('myform');
+        myform.addEventListener("submit", (e) => {
+            e.preventDefault();
+            var group_id = document.getElementById('group_id');
+            var expense_date = document.getElementById('expense_date');
+            var amount = document.getElementById('amount');
+            var remark = document.getElementById('remark');
+            if (group_id.value.trim() == "") {
+                group_id.focus();
+                return false;
+            }
+            if (expense_date.value.trim() == "") {
+                expense_date.focus();
+                return false;
+            }
+            if (amount.value.trim() == "") {
+                amount.focus();
+                return false;
+            }
+            const formData = new FormData(myform);
+            fetch("{{ url_for('mobileapp.expense_entry') }}", {
+                method: 'POST',
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    // console.log(data);
+                    show_record();
+                    if (data.status == "success") {
+                        toastr.info("Record Saved Successfully!");
+                    } else {
+                        toastr.error("Sorry!, Record Not Saved!");
+                    }
+                    group_id.value = "";
+                    expense_date.value = "";
+                    amount.value = "";
+                    remark.value = "";
+                    document.getElementById('expense_id').value = 0; // for insert condition
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        });
+    </script>
+    <script>
+        function show_record() {
+            fetch("{{ url_for('mobileapp.show_expense_entry') }}").then(resp => resp.text()).then((data) => {
+                document.getElementById('tbl_data').innerHTML = data;
+            });
+        }
+
+        function edit_record(id) {
+            fetch("{{ url_for('mobileapp.edit_expense_entry')}}?id=" + id).then(resp => resp.text()).then((data) => {
+                rowedit = JSON.parse(data);
+                document.getElementById('group_id').value = rowedit.group_id
+                document.getElementById('expense_date').value = rowedit.expense_date
+                document.getElementById('amount').value = rowedit.amount
+                document.getElementById('remark').value = rowedit.remark
+                document.getElementById('expense_id').value = rowedit.expense_id
+            });
+        }
+    </script>
+    <script>
+        function delete_data(id) {
+            if (confirm("Are you sure?")) {
+                const data = {
+                    'id': id
+                };
+                fetch("{{ url_for('mobileapp.delete_expense_entry') }}", {
+                    method: 'POST',
+                    body: "id=" + id,
+                    headers: {
+                        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    },
+                })
+                    .then(resp => resp.json())
+                    .then(data => {
+                        show_record();
+                        if (data.status == "success") {
+                            toastr.info("Record Deleted Successfully!");
+                        } else {
+                            toastr.info("Something went wrong!");
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
+        }
+    </script>
 </body>
 
 </html>

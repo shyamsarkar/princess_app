@@ -1,5 +1,7 @@
+from operator import and_
 from flask import *
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import or_, and_
 from datetime import timedelta, datetime
 import os
 from sqlalchemy.sql import func

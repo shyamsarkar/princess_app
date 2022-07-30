@@ -8,7 +8,9 @@
 <!-- ProgressBar js -->
 <script src="{{ url_for('mobileapp.static',filename='assets/js/plugins/progressbar-js/progressbar.min.js')}}"></script>
 <!-- Base Js File -->
-
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script>
     var goBack = document.querySelectorAll('.goBack');
     goBack.forEach(element => {
@@ -16,4 +18,9 @@
             history.back();
         })
     });
+    toastr.options = {
+        closeButton: true,
+        preventDuplicates: false,
+        positionClass: "toast-bottom-full-width"
+    }
 </script>

@@ -1,0 +1,16 @@
+{% for row in sql %}
+<tr>
+    <th scope="row">{{ loop.index }}</th>
+    <td>{{ row.group_name }}</td>
+    <td>{{ row.expense_date }}</td>
+    <td>{{ row.amount }}</td>
+    <td>{{ row.remark }}</td>
+    <td>
+        <a title="Edit" onclick="edit_record('{{row.expense_id}}')"><i class="fas fa-edit"></i></a>
+    </td>
+    <td>
+        <a class='icon-remove' title="Delete" onclick="delete_data('{{ row.expense_id }}')"><i
+                class="fa fa-times"></i></a>
+    </td>
+</tr>
+{% endfor %}

@@ -14,7 +14,7 @@
     {% include "inc/header_files.html" %}
 </head>
 
-<body>
+<body onload="show_record();">
 
 
 
@@ -54,7 +54,7 @@
 
                     <div class="form-group boxed">
                         <div class="input-wrapper">
-                            <label class="label" for="income_date">Name</label>
+                            <label class="label" for="income_date">Income Date</label>
                             <input type="date" class="form-control" name="income_date" id="income_date" value="">
                             <i class="clear-input">
                                 <ion-icon name="close-circle" role="img" class="md hydrated" aria-label="close circle">
@@ -64,7 +64,7 @@
                     </div>
                     <div class="form-group boxed">
                         <div class="input-wrapper">
-                            <label class="label" for="amount">Name</label>
+                            <label class="label" for="amount">Amount</label>
                             <input type="text" class="form-control" name="amount" id="amount" value=""
                                 placeholder="Enter Amount">
                             <i class="clear-input">
@@ -98,6 +98,31 @@
 
             </div>
         </div>
+        <div class="section full mb-2">
+            <div class="section-title">Income Entry List</div>
+
+            <div class="wide-block p-0">
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">GroupName</th>
+                                <th scope="col">IncomeDate</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Remark</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl_data">
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
 
     </div>
     <!-- * App Capsule -->
@@ -120,6 +145,7 @@
             var group_id = document.getElementById('group_id');
             var income_date = document.getElementById('income_date');
             var amount = document.getElementById('amount');
+            var remark = document.getElementById('remark');
             if (group_id.value.trim() == "") {
                 group_id.focus();
                 return false;
@@ -139,17 +165,18 @@
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
+                    // console.log(data);
                     show_record();
                     if (data.status == "success") {
-                        swal("Record Saved Successfully!");
+                        toastr.info("Record Saved Successfully!");
                     } else {
-                        swal("Sorry!, Record Not Saved!");
+                        toastr.error("Sorry!, Record Not Saved!");
                     }
                     group_id.value = "";
                     income_date.value = "";
                     amount.value = "";
-                    document.getElementById('income_id').value = ""; // for insert condition
+                    remark.value = "";
+                    document.getElementById('income_id').value = 0; // for insert condition
                 })
                 .catch(error => {
                     console.log(error)
@@ -157,46 +184,51 @@
         });
     </script>
     <script>
-        // function show_record() {
-        //     fetch("{{ url_for('mobileapp.show_income_group') }}").then(resp => resp.text()).then((data) => {
-        //         document.getElementById('tbl_data').innerHTML = data;
-        //     });
-        // }
+        function show_record() {
+            fetch("{{ url_for('mobileapp.show_income_entry') }}").then(resp => resp.text()).then((data) => {
+                document.getElementById('tbl_data').innerHTML = data;
+            });
+        }
 
-        // function edit_record(id) {
-        //     fetch("{{ url_for('mobileapp.edit_income_group')}}?id=" + id).then(resp => resp.text()).then((data) => {
-        //         console.log(data);
-        //     });
-        // }
+        function edit_record(id) {
+            fetch("{{ url_for('mobileapp.edit_income_entry')}}?id=" + id).then(resp => resp.text()).then((data) => {
+                rowedit = JSON.parse(data);
+                // console.log(rowedit.income_date);
+                document.getElementById('group_id').value = rowedit.group_id
+                document.getElementById('income_date').value = rowedit.income_date
+                document.getElementById('amount').value = rowedit.amount
+                document.getElementById('remark').value = rowedit.remark
+                document.getElementById('income_id').value = rowedit.income_id
+            });
+        }
     </script>
     <script>
-        // function delete_data(id) {
-        //     if (confirm("Are you sure?")) {
-        //         const data = {
-        //             'id': id
-        //         };
-        //         fetch("{{ url_for('mobileapp.delete_income_group') }}", {
-        //             method: 'POST',
-        //             body: "id=" + id,
-        //             headers: {
-        //                 "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-        //             },
-        //         })
-        //             .then(resp => resp.json())
-        //             .then(data => {
-        //                 show_record();
-        //                 console.log(data);
-        //                 if (data.status == "success") {
-        //                     swal("Record Deleted Successfully!");
-        //                 } else {
-        //                     swal("Something went wrong!");
-        //                 }
-        //             })
-        //             .catch(error => {
-        //                 console.log(error)
-        //             })
-        //     }
-        // }
+        function delete_data(id) {
+            if (confirm("Are you sure?")) {
+                const data = {
+                    'id': id
+                };
+                fetch("{{ url_for('mobileapp.delete_income_entry') }}", {
+                    method: 'POST',
+                    body: "id=" + id,
+                    headers: {
+                        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    },
+                })
+                    .then(resp => resp.json())
+                    .then(data => {
+                        show_record();
+                        if (data.status == "success") {
+                            toastr.info("Record Deleted Successfully!");
+                        } else {
+                            toastr.info("Something went wrong!");
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
+        }
     </script>
 </body>
 

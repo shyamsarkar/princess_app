@@ -100,7 +100,7 @@
     {% include "inc/footer_files.html" %}
 
 
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <script>
         const myform = document.getElementById('myform');
         myform.addEventListener("submit", (e) => {
@@ -117,12 +117,11 @@
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
                     show_record();
                     if (data.status == "success") {
-                        swal("Record Saved Successfully!");
+                        toastr.info("Record Saved Successfully!");
                     } else {
-                        swal("Sorry!, Record Not Saved!");
+                        toastr.error("Sorry!, Record Not Saved!");
                     }
                     group_name.value = "";
                     document.getElementById('group_id').value = 0; // for insert condition
@@ -166,9 +165,9 @@
                         show_record();
                         console.log(data);
                         if (data.status == "success") {
-                            swal("Record Deleted Successfully!");
+                            toastr.info("Record Deleted Successfully!");
                         } else {
-                            swal("Something went wrong!");
+                            toastr.info("Something went wrong!");
                         }
                     })
                     .catch(error => {
