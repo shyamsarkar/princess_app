@@ -8,6 +8,7 @@ mobileapp = Blueprint('mobileapp', __name__, url_prefix='/mobileapp',
 @mobileapp.route('/', methods=['GET', 'POST'])
 @login_required
 def dashboard():
+    # print(request.host.split(':')[0])
     return render_template('dashboard.html')
 
 
