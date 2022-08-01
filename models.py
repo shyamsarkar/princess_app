@@ -83,11 +83,3 @@ class Expense_Entry(Actionclass):
                             server_default=func.now(), onupdate=func.now())
     updatetime = db.Column(db.Time, nullable=False,
                            server_default=func.now(), onupdate=func.now())
-
-
-# (`id`, ``, ``, ``, ``, ``, ``, ``, ``, ``) VALUES (NULL, '', '', '', '', 'enable', '0', '::1', '', '2022-07-18')
-
-userobj = Users(username="admin", email="admin@gmail.com", password=123, usertype="admin",
-                enable="enable", createdby=1, ipaddress="::1", createdate="2022-07-18", lastupdated="2022-07-18")
-db.session.add(userobj)
-db.session.commit()
