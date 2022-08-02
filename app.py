@@ -52,6 +52,8 @@ def internal_error(error):
 '''
 from flask import *
 
+app = Flask(__name__)
+
 
 @app.route("/")
 def hello_world():
