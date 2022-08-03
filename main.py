@@ -1,9 +1,52 @@
-from flask import Flask
+'''from models import *
+from auth.urls import auth
+from mobileapp.urls import mobileapp
 
 
-app = Flask(__name__)
+""" Setting user_id in session by flask login """
+
+"""  
+.\venv\Scripts\activate
+$env:flask_app="app"
+$env:flask_env="development"
+flask run
+
+
+"""
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(int(user_id))
+
+
+""" Blueprint App urls.py registration """
+
+app.register_blueprint(auth)
+app.register_blueprint(mobileapp)
+
+
+""" Flask and Flask-SQLAlchemy initialization here """
+
+
+""" flask script will come here """
+
+
+# Very Basic App Definition
 
 
 @app.route('/')
-def Home():
-    return "<h1>Hello World</h1>"
+def index():
+    # return render_template("index.html")
+    return redirect(url_for('auth.index'))
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html')
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    return render_template('500.html')
+'''
