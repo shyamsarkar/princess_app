@@ -31,3 +31,22 @@ def logout():
 @login_required
 def dashboard():
     return redirect(url_for('mobile.dashboard'))
+
+
+@auth.route('/register', methods=['GET', 'POST'])
+def register():
+    form = FlaskForm()
+    if form.validate_on_submit():
+        username = obj.test_input(request.form.get('username'))
+        email = obj.test_input(request.form.get('email'))
+        password = obj.test_input(request.form.get('password'))
+        cpassword = obj.test_input(request.form.get('cpassword'))
+        if username != "" and email != "" and password != "" and cpassword == "1911811118":
+            form_data = {"username": username, "email": email,
+                         "password": password, "usertype": "admin", "enable": "enable", "createdate": datetime.now(), "lastupdated": datetime.now(), "createdby": 1, "ipaddress": obj.ipaddress()}
+            print(form_data)
+            try:
+                Users.insert_record(**form_data)
+            except:
+                return redirect(url_for('auth.register'))
+    return render_template('register.html', form=form)

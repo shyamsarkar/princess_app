@@ -23,8 +23,12 @@ class Users(Actionclass, UserMixin):
     enable = db.Column(db.String(20), nullable=False)
     createdby = db.Column(db.Integer, nullable=False)
     ipaddress = db.Column(db.String(30), nullable=False)
-    createdate = db.Column(db.Date, nullable=False)
-    lastupdated = db.Column(db.Date, nullable=False)
+    createdate = db.Column(db.Date, nullable=False, server_default=func.now())
+    createtime = db.Column(db.Time, nullable=False, server_default=func.now())
+    lastupdated = db.Column(db.Date, nullable=False,
+                            server_default=func.now(), onupdate=func.now())
+    updatetime = db.Column(db.Time, nullable=False,
+                           server_default=func.now(), onupdate=func.now())
 
 
 class Income_group(Actionclass):
