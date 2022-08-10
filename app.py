@@ -1,4 +1,4 @@
-'''from models import *
+from models import *
 from auth.urls import auth
 from mobileapp.urls import mobileapp
 
@@ -49,12 +49,12 @@ def page_not_found(error):
 @app.errorhandler(500)
 def internal_error(error):
     return render_template('500.html')
-'''
-from flask import *
 
-app = Flask(__name__)
+# from flask import *
+
+# app = Flask(__name__)
 
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+# @app.route("/")
+# def hello_world():
+#     return "<p>Hello, World!</p>"
