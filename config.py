@@ -22,7 +22,7 @@ from flask_admin.contrib.sqla import ModelView
 
 # app Configuration
 app = Flask(__name__, template_folder='templates', static_folder='static')
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:123@localhost/princess_app'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/princess_app'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123@localhost/princess_app'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ikwgugqfbmojbt:7b89343510e8703e9dfe438e22d0e41999363d2c6a226397eb54b48859aef814@ec2-18-214-35-70.compute-1.amazonaws.com:5432/ddf7mfsu2fuehs'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
