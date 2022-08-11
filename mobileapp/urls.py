@@ -46,7 +46,7 @@ def income_group():
 @mobileapp.route('show_income_group', methods=['GET'])
 @login_required
 def show_income_group():
-    sql = Income_group.query.all()
+    sql = Income_group.query.filter_by(createdby=current_user.id).all()
     return render_template('show_income_group.html', current_user=current_user, sql=sql)
 
 
@@ -104,7 +104,7 @@ def income_entry():
                     return jsonify({"resp": lastid.income_id, "status": "success"})
                 except:
                     return jsonify({"resp": "error", "message": "ValueError", "status": "failed"})
-    qry_group = Income_group.query.all()
+    qry_group = Income_group.query.filter_by(createdby=current_user.id).all()
     return render_template('income_entry.html', form=form, qry_group=qry_group)
 
 
@@ -113,7 +113,7 @@ def income_entry():
 def show_income_entry():
     # sql = Income_Entry.query.all()
     sql = db.session.query(Income_Entry.income_id, Income_Entry.group_id, Income_Entry.income_date, Income_Entry.amount, Income_Entry.remark, Income_group.group_name).join(Income_group,
-                                                                                                                                                                            Income_group.group_id == Income_Entry.group_id).all()
+                                                                                                                                                                            Income_group.group_id == Income_Entry.group_id).filter_by(createdby=current_user.id).all()
 
     return render_template('show_income_entry.html', current_user=current_user, sql=sql)
 
@@ -172,7 +172,7 @@ def expense_group():
 @mobileapp.route('show_expense_group', methods=['GET'])
 @login_required
 def show_expense_group():
-    sql = Expense_group.query.all()
+    sql = Expense_group.query.filter_by(createdby=current_user.id).all()
     return render_template('show_income_group.html', current_user=current_user, sql=sql)
 
 
@@ -230,8 +230,8 @@ def expense_entry():
                     return jsonify({"resp": lastid.expense_id, "status": "success"})
                 except:
                     return jsonify({"resp": "error", "message": "ValueError", "status": "failed"})
-    qry_group = Expense_group.query.all()
-    print(qry_group)
+    qry_group = Expense_group.query.filter_by(createdby=current_user.id).all()
+    # print(qry_group)
     return render_template('expense_entry.html', form=form, qry_group=qry_group)
 
 
@@ -239,7 +239,7 @@ def expense_entry():
 @login_required
 def show_expense_entry():
     sql = db.session.query(Expense_Entry.expense_id, Expense_Entry.group_id, Expense_Entry.expense_date, Expense_Entry.amount,
-                           Expense_Entry.remark, Expense_group.group_name).join(Expense_group, Expense_group.group_id == Expense_Entry.group_id).all()
+                           Expense_Entry.remark, Expense_group.group_name).join(Expense_group, Expense_group.group_id == Expense_Entry.group_id).filter_by(createdby=current_user.id).all()
 
     return render_template('show_expense_entry.html', current_user=current_user, sql=sql)
 
