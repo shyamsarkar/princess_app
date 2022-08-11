@@ -50,6 +50,6 @@ def page_not_found(error):
 def internal_error(error):
     return render_template('500.html')
 
-# if __name__=="__main__":
-#     app.run()
+if __name__=="__main__":
+    app.run()
 
