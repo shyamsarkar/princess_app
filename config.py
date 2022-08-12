@@ -23,8 +23,8 @@ from flask_admin.contrib.sqla import ModelView
 # app Configuration
 app = Flask(__name__, template_folder='templates', static_folder='static')
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/princess_app'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123@localhost/princess_app'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ikwgugqfbmojbt:7b89343510e8703e9dfe438e22d0e41999363d2c6a226397eb54b48859aef814@ec2-18-214-35-70.compute-1.amazonaws.com:5432/ddf7mfsu2fuehs'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123@localhost/princess_app'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://wpcmhuddtrvcdo:fdc9b774f26e3012e8734d51d58adfee5a1e3007337cd5f19138c970a3a2b73d@ec2-34-234-240-121.compute-1.amazonaws.com:5432/dc86t460v6iiu8'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['SQLALCHEMY_RECORD_QUERIES'] = False
