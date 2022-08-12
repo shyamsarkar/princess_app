@@ -4,14 +4,11 @@ from mobileapp.urls import mobileapp
 
 
 """ Setting user_id in session by flask login """
-
 """  
 .\venv\Scripts\activate
 $env:flask_app="app"
 $env:flask_env="development"
 flask run
-
-
 """
 
 
