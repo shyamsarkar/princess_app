@@ -9,6 +9,7 @@ from mobileapp.urls import mobileapp
 $env:flask_app="app"
 $env:flask_env="development"
 flask run
+
 """
 
 

@@ -8,12 +8,15 @@ mobileapp = Blueprint('mobileapp', __name__, url_prefix='/mobileapp',
 @mobileapp.route('/', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    # print(request.host.split(':')[0])
+    # qry = db.session.query(Income_Entry).outerjoin(
+    #     Income_group, Income_Entry.group_id == Income_group.group_id).group_by(Income_Entry.createdate).all()
+    # qry = db.session.execute(text("select * from income_group")).all()
+    # print(qry)
     return render_template('dashboard.html')
 
 
-@mobileapp.route('income_group', methods=['GET', 'POST'])
-@login_required
+@ mobileapp.route('income_group', methods=['GET', 'POST'])
+@ login_required
 def income_group():
     # return obj.show(request)
     form = FlaskForm()
