@@ -42,24 +42,13 @@ class Income_group(Actionclass):
                             server_default=func.now(), onupdate=func.now())
     updatetime = db.Column(db.Time, nullable=False,
                            server_default=func.now(), onupdate=func.now())
-
-
-class Expense_group(Actionclass):
-    group_id = db.Column(db.Integer, primary_key=True)
-    group_name = db.Column(db.String(100), nullable=False)
-    ipaddress = db.Column(db.String(30), nullable=False)
-    createdby = db.Column(db.Integer, nullable=False)
-    createdate = db.Column(db.Date, nullable=False, server_default=func.now())
-    createtime = db.Column(db.Time, nullable=False, server_default=func.now())
-    lastupdated = db.Column(db.Date, nullable=False,
-                            server_default=func.now(), onupdate=func.now())
-    updatetime = db.Column(db.Time, nullable=False,
-                           server_default=func.now(), onupdate=func.now())
+    incomes = db.relationship('Income_Entry', backref='income_group')
 
 
 class Income_Entry(Actionclass):
     income_id = db.Column(db.Integer, primary_key=True)
-    group_id = db.Column(db.Integer, nullable=True)
+    group_id = db.Column(db.Integer, db.ForeignKey(
+        'income_group.group_id'), nullable=False)
     income_date = db.Column(db.Date, nullable=False)
     amount = db.Column(db.Float, nullable=False)
     remark = db.Column(db.String(100), nullable=False)
@@ -73,9 +62,24 @@ class Income_Entry(Actionclass):
                            server_default=func.now(), onupdate=func.now())
 
 
+class Expense_group(Actionclass):
+    group_id = db.Column(db.Integer, primary_key=True)
+    group_name = db.Column(db.String(100), nullable=False)
+    ipaddress = db.Column(db.String(30), nullable=False)
+    createdby = db.Column(db.Integer, nullable=False)
+    createdate = db.Column(db.Date, nullable=False, server_default=func.now())
+    createtime = db.Column(db.Time, nullable=False, server_default=func.now())
+    lastupdated = db.Column(db.Date, nullable=False,
+                            server_default=func.now(), onupdate=func.now())
+    updatetime = db.Column(db.Time, nullable=False,
+                           server_default=func.now(), onupdate=func.now())
+    expenses = db.relationship('Expense_Entry', backref='expense_group')
+
+
 class Expense_Entry(Actionclass):
     expense_id = db.Column(db.Integer, primary_key=True)
-    group_id = db.Column(db.Integer, nullable=True)
+    group_id = db.Column(db.Integer, db.ForeignKey(
+        'expense_group.group_id'), nullable=False)
     expense_date = db.Column(db.Date, nullable=False)
     amount = db.Column(db.Float, nullable=False)
     remark = db.Column(db.String(100), nullable=False)

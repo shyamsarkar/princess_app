@@ -1,9 +1,8 @@
-from operator import and_
 from flask import *
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_, and_, text
 
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, date
 import os
 from sqlalchemy.sql import func
 from sqlalchemy.sql import column, table, select
@@ -27,7 +26,7 @@ app = Flask(__name__, template_folder='templates', static_folder='static')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:123@localhost/princess_app'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123@localhost/princess_app'
-
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://wpcmhuddtrvcdo:fdc9b774f26e3012e8734d51d58adfee5a1e3007337cd5f19138c970a3a2b73d@ec2-34-234-240-121.compute-1.amazonaws.com:5432/dc86t460v6iiu8'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['SQLALCHEMY_RECORD_QUERIES'] = False

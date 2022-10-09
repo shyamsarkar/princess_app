@@ -34,54 +34,34 @@
                     <div>
                         <h6 class="card-subtitle">Income-Expense</h6>
                         <h5 class="card-title mb-0 d-flex align-items-center justify-content-between">
-                            Graph Comparison
+                            Monthwise Comparison
                         </h5>
                     </div>
                 </div>
                 <div>
-                    <canvas id="myChart" width="400" height="400"></canvas>
+                    <canvas id="myChart" width="400" height="600"></canvas>
                 </div>
 
             </div>
         </div>
 
-        <div class="section mt-3 mb-3">
+        <!-- <div class="section mt-3 mb-3">
             <div class="card">
                 <img src="{{ url_for('mobileapp.static',filename='assets/img/sample/photo/wide4.jpg') }}"
                     class="card-img-top" alt="image">
                 <div class="card-body">
-                    <h6 class="card-subtitle">Discover</h6>
-                    <h5 class="card-title">Components</h5>
+                    <h6 class="card-subtitle">Demo</h6>
+                    <h5 class="card-title">Demo</h5>
                     <p class="card-text">
-                        Reusable components designed for the mobile interface and ready to use.
+                        Description will be coming here.
                     </p>
-                    <a href="app-components.html" class="btn btn-primary">
+                    <a href="404.html" class="btn btn-primary">
                         <ion-icon name="cube-outline"></ion-icon>
-                        Preview
+                        Show 404
                     </a>
                 </div>
             </div>
-        </div>
-
-        <div class="section mt-3 mb-3">
-            <div class="card">
-                <img src="{{ url_for('mobileapp.static',filename='assets/img/sample/photo/wide2.jpg') }}"
-                    class="card-img-top" alt="image">
-                <div class="card-body">
-                    <h6 class="card-subtitle">Discover</h6>
-                    <h5 class="card-title">Pages</h5>
-                    <p class="card-text">
-                        Mobilekit comes with basic pages you may need and use in your projects easily.
-                    </p>
-                    <a href="app-pages.html" class="btn btn-primary">
-                        <ion-icon name="layers-outline"></ion-icon>
-                        Preview
-                    </a>
-                </div>
-            </div>
-        </div>
-
-
+        </div> -->
 
     </div>
     <!-- * App Capsule -->
@@ -96,7 +76,51 @@
 
     {% include "inc/footer_files.html" %}
 
-    <script src="{{ url_for('mobileapp.static',filename='assets/js/chartjs_graph.js') }}"></script>
+    <!-- <script src="{{ url_for('mobileapp.static',filename='assets/js/chartjs_graph.js') }}"></script> -->
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [{% if monthwise_dict %}{% for month in monthwise_dict.keys() %}{{ month }},{% endfor %}{% endif %}],
+        datasets: [{
+            label: 'Income',
+            data: [{% if monthwise_dict %}{% for month in monthwise_dict.values() %}{{ month }},{% endfor %}{% endif %}],
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(75, 192, 192, 0.8)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(75, 192, 192, 1)',
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'Expense',
+            data: [{% if expense_dict %}{% for month in expense_dict.values() %}{{ month }},{% endfor %}{% endif %}],
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(75, 192, 192, 1)',
+            ],
+            borderWidth: 1
+        }
+        ]
+    },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            indexAxis: 'y'
+        }
+});
+    </script>
 </body>
 
 </html>

@@ -145,5 +145,12 @@ class Actionclass(db.Model):
                 data[key] = requested.form.get(key)
         return data
 
+    @staticmethod
+    def add_zero(number):
+        i = str(number)
+        if len(i) == 1:
+            i = f'0{i}'
+        return i
+
 
 obj = Actionclass()

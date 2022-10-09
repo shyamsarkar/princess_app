@@ -10,9 +10,28 @@ mobileapp = Blueprint('mobileapp', __name__, url_prefix='/mobileapp',
 def dashboard():
     # qry = db.session.query(Income_Entry).outerjoin(
     #     Income_group, Income_Entry.group_id == Income_group.group_id).group_by(Income_Entry.createdate).all()
-    # qry = db.session.execute(text("select * from income_group")).all()
-    # print(qry)
-    return render_template('dashboard.html')
+    todays_date = date.today()
+    curr_year = todays_date.year
+    income_raw_str = "SELECT date_format(income_date,'%m'),SUM(amount) FROM income__entry WHERE date_format(income_date,'%Y')='{}' GROUP BY date_format(income_date,'%m')".format(
+        curr_year)
+    expense_raw_str = "SELECT date_format(expense_date,'%m'),SUM(amount) FROM expense__entry WHERE date_format(expense_date,'%Y')='{}' GROUP BY date_format(expense_date,'%m')".format(
+        curr_year)
+    income_qry = dict(db.session.execute(income_raw_str).all())
+    expense_qry = dict(db.session.execute(expense_raw_str).all())
+    monthwise_dict = dict()
+    expense_dict = dict()
+    for i in range(1, 13):
+        newkey = obj.add_zero(i)
+        if newkey in income_qry:
+            monthwise_dict[i] = income_qry[newkey]
+        else:
+            monthwise_dict[i] = 0
+        if newkey in expense_qry:
+            expense_dict[i] = expense_qry[newkey]
+        else:
+            expense_dict[i] = 0
+
+    return render_template('dashboard.html', monthwise_dict=monthwise_dict, expense_dict=expense_dict)
 
 
 @ mobileapp.route('income_group', methods=['GET', 'POST'])
@@ -108,7 +127,8 @@ def income_entry():
                 except:
                     return jsonify({"resp": "error", "message": "ValueError", "status": "failed"})
     qry_group = Income_group.query.filter_by(createdby=current_user.id).all()
-    return render_template('income_entry.html', form=form, qry_group=qry_group)
+    curr_date = date.today()
+    return render_template('income_entry.html', form=form, qry_group=qry_group, curr_date=curr_date)
 
 
 @mobileapp.route('show_income_entry', methods=['GET'])
@@ -234,8 +254,8 @@ def expense_entry():
                 except:
                     return jsonify({"resp": "error", "message": "ValueError", "status": "failed"})
     qry_group = Expense_group.query.filter_by(createdby=current_user.id).all()
-    # print(qry_group)
-    return render_template('expense_entry.html', form=form, qry_group=qry_group)
+    curr_date = date.today()
+    return render_template('expense_entry.html', form=form, qry_group=qry_group, curr_date=curr_date)
 
 
 @mobileapp.route('show_expense_entry', methods=['GET'])
